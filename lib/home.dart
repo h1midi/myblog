@@ -138,7 +138,12 @@ Widget _content(BuildContext context){
 }
 
 Widget _drawScreen(BuildContext context,QuerySnapshot data) {
-  return ListView.builder(
+  return GridView.builder(
+    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 500,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20),
     itemCount: data.docs.length,
     itemBuilder: (BuildContext context, int position){
       return Card(
@@ -152,7 +157,13 @@ Widget _drawScreen(BuildContext context,QuerySnapshot data) {
                     Text(
                       data.docs[position]['title'],
                       style: TextStyle(
-                        fontSize: 36,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black,
+                            blurRadius: 0.6,
+                            offset: Offset(1,1)
+                        ),],
+                        fontSize: 30,
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
@@ -161,6 +172,12 @@ Widget _drawScreen(BuildContext context,QuerySnapshot data) {
                     Text(
                       data.docs[position]['desc'],
                       style: TextStyle(
+                        shadows: [
+                          Shadow(
+                            color: Colors.black,
+                            blurRadius: 0.6,
+                            offset: Offset(1,1)
+                        ),],
                         fontSize: 14,
                         color: Colors.grey.shade300
                       ),
