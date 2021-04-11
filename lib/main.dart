@@ -124,50 +124,62 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisCount: 4,
           children: [ 
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
             Card(
+              margin: EdgeInsets.all(16),
               child: Center(child: Text('Hello World')),
               color: Colors.amber,
               ),
