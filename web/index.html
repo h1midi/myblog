@@ -30,6 +30,29 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use-->
+
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEQ3dmg20zRozL4hgYcq8Q9tpGAqY_eR8",
+      authDomain: "myblog-d2898.firebaseapp.com",
+      projectId: "myblog-d2898",
+      storageBucket: "myblog-d2898.appspot.com",
+      messagingSenderId: "23129032966",
+      appId: "1:23129032966:web:cb5c2d365f617a79523687"
+    };
+        // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
@@ -42,4 +65,5 @@
   </script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
+
 </html>
