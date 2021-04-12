@@ -1,6 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
+import 'blog.dart';
+
 
 class homeScreen extends StatefulWidget {
   @override
@@ -116,10 +121,8 @@ Widget _content(BuildContext context){
          
          case ConnectionState.none:
            return _error(context, 'no connection1');
-           break;
          case ConnectionState.waiting:
            return Center(child: CircularProgressIndicator(),);
-           break;
          case ConnectionState.active:
          case ConnectionState.done:
             if (snapshot.hasError) {
@@ -130,7 +133,6 @@ Widget _content(BuildContext context){
               return _error(context, 'no connection2');
             }
            return _drawScreen(context, snapshot.data);
-           break;
        }
      },
       ),
@@ -141,53 +143,102 @@ Widget _drawScreen(BuildContext context,QuerySnapshot data) {
   return GridView.builder(
     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 500,
-                childAspectRatio: 3 / 2,
+                childAspectRatio: 3 / 1.5,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
+    shrinkWrap: true,
     itemCount: data.docs.length,
     itemBuilder: (BuildContext context, int position){
-      return Card(
-              margin: EdgeInsets.all(16),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      data.docs[position]['title'],
-                      style: TextStyle(
-                        shadows: [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 0.6,
-                            offset: Offset(1,1)
-                        ),],
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,
-                     ),
-                     SizedBox(height: 12,),
-                    Text(
-                      data.docs[position]['desc'],
-                      style: TextStyle(
-                        shadows: [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 0.6,
-                            offset: Offset(1,1)
-                        ),],
-                        fontSize: 14,
-                        color: Colors.grey.shade300
-                      ),
-                      textAlign: TextAlign.center,
-                     ),
-                  ],
+      return GestureDetector(
+        onTap: (){
+          Navigator.push(
+      context, MaterialPageRoute(builder: (BuildContext context) => BlogScreen(data.docs[position]['body'])));
+        },
+        child: Card(
+            margin: EdgeInsets.all(16),
+            child: Stack(
+              children: [
+                data.docs[position]['img'] != '' 
+                ?ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child:CachedNetworkImage(
+                  imageUrl: data.docs[position]['img'],
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                ),)
+                :ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Container(
+                    color: Colors.amber,
+                    width: MediaQuery.of(context).size.width,
+                    ),
                 ),
-              ),
-              color: Colors.amber,
-              );
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 60,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 300.0,
+                            maxWidth: 500.0,
+                            minHeight: 50.0,
+                            maxHeight: 60.0,
+                          ),
+                          child: AutoSizeText(
+                            data.docs[position]['title'],
+                            style: TextStyle(
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black,
+                                  blurRadius: 0.6,
+                                  offset: Offset(1,1)
+                              ),],
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                           ),
+                        ),
+                      ),
+                       SizedBox(height: 6,),
+                      Container(
+                        height: 55,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 300.0,
+                            maxWidth: 500.0,
+                            minHeight: 30.0,
+                            maxHeight: 45.0,
+                          ),
+                          child: AutoSizeText(
+                            data.docs[position]['desc'],
+                            minFontSize:10,
+                            maxLines: 3,
+                            style: TextStyle(
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black,
+                                  blurRadius: 0.3,
+                                  offset: Offset(1,1)
+                              ),],
+                              fontSize: 14,
+                              color: Colors.white70,
+                            ),
+                            textAlign: TextAlign.center,
+                           ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            ),
+      );
   });
 }
 
