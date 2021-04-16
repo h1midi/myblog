@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BlogScreen extends StatelessWidget {
-  final String body,title;
-  BlogScreen(this.body,this.title);
+  final String body, title;
+  BlogScreen(this.body, this.title);
   @override
   Widget build(BuildContext context) {
-  double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -83,15 +85,48 @@ class BlogScreen extends StatelessWidget {
         ],
       ),
       appBar: AppBar(
-        title: Text(title,style: TextStyle(color: Colors.amber),),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.amber),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
-          alignment: Alignment.center,
-          padding: width >= 1000 ? EdgeInsets.fromLTRB(width*0.2, 20, width*0.2, 20): EdgeInsets.all(20),
-          child: Container(color: Colors.black45,child: Html(data: body)),
-        ),
+            alignment: Alignment.center,
+            child: Container(
+              color: Colors.black45,
+              child: Html(
+                data: body,
+                onLinkTap: (url, _, __, ___) async{
+                  await launch(url.toString());
+                },
+                style: {
+                  'p': Style(
+                    fontSize: FontSize(16),
+                  ),
+                  'h1': Style(
+                    fontSize: FontSize(22),
+                  ),
+                  'h2': Style(
+                    fontSize: FontSize(21),
+                  ),
+                  'h3': Style(
+                    fontSize: FontSize(20),
+                  ),
+                  'a': Style(
+                    fontSize: FontSize(18),
+                  ),
+                  'code': Style(
+                    fontSize: FontSize(12),
+                    color: Colors.amber[200],
+                  ),
+                },
+              ),
+            ),
+            padding: width >= 1000
+                ? EdgeInsets.fromLTRB(width * 0.2, 20, width * 0.2, 20)
+                : EdgeInsets.all(20)),
       ),
     );
   }

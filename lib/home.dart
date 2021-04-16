@@ -168,6 +168,7 @@ Widget _drawScreen(BuildContext context, QuerySnapshot data) {
                         child: CachedNetworkImage(
                           imageUrl: data.docs[position]['img'],
                           width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
                           fit: BoxFit.cover,
                         ),
                       )
@@ -223,17 +224,17 @@ Widget _drawScreen(BuildContext context, QuerySnapshot data) {
                           ),
                           child: AutoSizeText(
                             data.docs[position]['desc'],
-                            minFontSize: 10,
+                            minFontSize: 11,
                             maxLines: 3,
                             style: TextStyle(
                               shadows: [
                                 Shadow(
                                     color: Colors.black,
-                                    blurRadius: 0.3,
+                                    blurRadius: 0.9,
                                     offset: Offset(1, 1)),
                               ],
                               fontSize: 14,
-                              color: Colors.white70,
+                              color: Colors.white,
                             ),
                             textAlign: TextAlign.center,
                           ),
