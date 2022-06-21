@@ -155,8 +155,9 @@ Widget _drawScreen(BuildContext context, QuerySnapshot data) {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        BlogScreen(data.docs[position]['body'],data.docs[position]['title'])));
+                    builder: (BuildContext context) => BlogScreen(
+                        data.docs[position]['body'],
+                        data.docs[position]['title'])));
           },
           child: Card(
             margin: EdgeInsets.all(16),

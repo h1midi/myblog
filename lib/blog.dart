@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -98,8 +97,8 @@ class BlogScreen extends StatelessWidget {
               color: Colors.black45,
               child: Html(
                 data: body,
-                onLinkTap: (url, _, __, ___) async{
-                  await launch(url.toString());
+                onLinkTap: (url, _, __, ___) async {
+                  await launchUrl(Uri.parse(url));
                 },
                 style: {
                   'p': Style(

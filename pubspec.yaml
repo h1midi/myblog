@@ -1,9 +1,9 @@
 name: myblog
-description: A new Flutter project.
+description: my personal blog.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -18,17 +18,18 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  auto_size_text: ^3.0.0
+  cached_network_image: ^3.2.1
+  cloud_firestore: ^3.1.18
+  cupertino_icons: ^1.0.5
+  firebase_core: ^1.10.2
   flutter:
     sdk: flutter
-  auto_size_text: ^3.0.0-nullsafety.0
-  cached_network_image: ^3.0.0
-  cloud_firestore: ^1.0.4
-  cupertino_icons: ^1.0.2
-  flutter_html: ^2.0.0-nullsafety.0
-  url_launcher: ^6.0.3
+  flutter_html: any
+  url_launcher: any
 
 dev_dependencies:
   flutter_test:
@@ -38,7 +39,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
