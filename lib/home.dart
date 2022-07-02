@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 import 'blog.dart';
 
@@ -16,7 +15,7 @@ class _homeScreenState extends State<homeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -44,23 +43,6 @@ class _homeScreenState extends State<homeScreen> {
                   return ElevatedButton(
                     onPressed: folowLink,
                     child: Text("LinkedIn"),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.transparent),
-                      elevation: MaterialStateProperty.all<double>(0.0),
-                    ),
-                  );
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Link(
-                uri: Uri.parse("http://twitter.com/hammiddi"),
-                target: LinkTarget.blank,
-                builder: (context, folowLink) {
-                  return ElevatedButton(
-                    onPressed: folowLink,
-                    child: Text("Twitter"),
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.transparent),
@@ -112,143 +94,59 @@ class _homeScreenState extends State<homeScreen> {
 }
 
 Widget _content(BuildContext context) {
-  return Padding(
-    padding: EdgeInsets.all(16),
-    child: StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('blog').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return _error(context, 'no connection1');
-          case ConnectionState.waiting:
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          case ConnectionState.active:
-          case ConnectionState.done:
-            if (snapshot.hasError) {
-              print(snapshot.error.toString());
-              return _error(context, snapshot.error.toString());
-            }
-            if (!snapshot.hasData) {
-              return _error(context, 'no connection2');
-            }
-            return _drawScreen(context, snapshot.data);
-        }
-      },
-    ),
+  return StreamBuilder(
+    stream: FirebaseFirestore.instance.collection('blog').snapshots(),
+    // ignore: missing_return
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      switch (snapshot.connectionState) {
+        case ConnectionState.none:
+          return _error(context, 'no connection1');
+        case ConnectionState.waiting:
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        case ConnectionState.active:
+        case ConnectionState.done:
+          if (snapshot.hasError) {
+            print(snapshot.error.toString());
+            return _error(context, snapshot.error.toString());
+          }
+          if (!snapshot.hasData) {
+            return _error(context, 'no connection2');
+          }
+          return _drawScreen(context, snapshot.data);
+      }
+    },
   );
 }
 
 Widget _drawScreen(BuildContext context, QuerySnapshot data) {
-  return GridView.builder(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 500,
-          childAspectRatio: 3 / 1.5,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20),
-      shrinkWrap: true,
-      itemCount: data.docs.length,
-      itemBuilder: (BuildContext context, int position) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => BlogScreen(
-                        data.docs[position]['body'],
-                        data.docs[position]['title'])));
-          },
-          child: Card(
-            margin: EdgeInsets.all(16),
-            child: Stack(
-              children: [
-                data.docs[position]['img'] != ''
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: CachedNetworkImage(
-                          imageUrl: data.docs[position]['img'],
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: Container(
-                          color: Colors.amber,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 60,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: 300.0,
-                            maxWidth: 500.0,
-                            minHeight: 50.0,
-                            maxHeight: 60.0,
-                          ),
-                          child: AutoSizeText(
-                            data.docs[position]['title'],
-                            style: TextStyle(
-                              shadows: [
-                                Shadow(
-                                    color: Colors.black,
-                                    blurRadius: 0.6,
-                                    offset: Offset(1, 1)),
-                              ],
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Container(
-                        height: 55,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: 300.0,
-                            maxWidth: 500.0,
-                            minHeight: 30.0,
-                            maxHeight: 45.0,
-                          ),
-                          child: AutoSizeText(
-                            data.docs[position]['desc'],
-                            minFontSize: 11,
-                            maxLines: 3,
-                            style: TextStyle(
-                              shadows: [
-                                Shadow(
-                                    color: Colors.black,
-                                    blurRadius: 0.9,
-                                    offset: Offset(1, 1)),
-                              ],
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+  return ListView.builder(
+    shrinkWrap: true,
+    itemCount: data.docs.length,
+    itemBuilder: (BuildContext context, int position) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          color: Colors.black26,
+          child: _buildListItem(
+            Colors.amber, //
+            data.docs[position]['title'], //
+            data.docs[position]['desc'], //
+            data.docs[position]['img'], //
+            () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => BlogScreen(
+                          data.docs[position]['body'],
+                          data.docs[position]['title'])));
+            },
           ),
-        );
-      });
+        ),
+      );
+    },
+  );
 }
 
 Widget _error(BuildContext context, String mssg) {
@@ -256,6 +154,55 @@ Widget _error(BuildContext context, String mssg) {
     child: Text(
       mssg,
       style: TextStyle(color: Colors.amber),
+    ),
+  );
+}
+
+Widget _buildListItem(
+    Color color, String title, String desc, String image, Function fn) {
+  return InkWell(
+    onTap: fn,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            height: 100,
+            width: 100,
+            margin: const EdgeInsets.only(right: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: color,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: image,
+                placeholder: (context, url) => Container(),
+                errorWidget: (context, url, error) => Container(),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  maxLines: 2,
+                ),
+                const SizedBox(height: 10.0),
+                Text(
+                  desc,
+                  maxLines: 2,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

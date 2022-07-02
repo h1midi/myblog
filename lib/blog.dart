@@ -94,7 +94,7 @@ class BlogScreen extends StatelessWidget {
         child: Container(
             alignment: Alignment.center,
             child: Container(
-              color: Colors.black45,
+              color: Colors.black26,
               child: Html(
                 data: body,
                 onLinkTap: (url, _, __, ___) async {
